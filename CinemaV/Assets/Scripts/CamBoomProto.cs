@@ -7,6 +7,7 @@ public class CamBoomProto : MonoBehaviour
     CharacterController cc;
     public Rigidbody handsRB;
 
+    public PickupRaycast pickupRaycast;
     // as proof of concept, just hardcode the joint instead of sensing with raycast
     public ConfigurableJoint boomHandle;
     Rigidbody boomRB;
@@ -14,6 +15,7 @@ public class CamBoomProto : MonoBehaviour
 
     void Start()
     {
+
         cc = GetComponent<CharacterController>();
     }
 
@@ -27,7 +29,8 @@ public class CamBoomProto : MonoBehaviour
         cc.Move( transform.forward * v * Time.deltaTime * 10f);
 
         // pickup objects
-        if ( Input.GetKeyDown(KeyCode.E) ) {
+        if ( Input.GetKeyDown(KeyCode.E) && pickupRaycast.isHeld == false)
+        {
             // TODO: raycast / spherecast, sense which boom we are picking up
             boomRB = boomHandle.GetComponent<Rigidbody>();
 
