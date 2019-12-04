@@ -10,7 +10,7 @@ public class PickupRaycast : MonoBehaviour
 
     public GameObject target;
     GameObject itemGrabbed = null;
-    bool rbody= true;
+    bool rbody= false;
     public bool isHeld = false;
     
 
@@ -31,14 +31,14 @@ public class PickupRaycast : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.E) )
         {
-            if (rbody == true)
+            if (rbody == false)
             {
                 Pickup();
                 
             }
 
 
-            else if (rbody == false)
+            else if (rbody == true)
             {
                 Drop();
                 
@@ -52,7 +52,7 @@ public class PickupRaycast : MonoBehaviour
     }
         //End Update
 
-    void Pickup()
+    public void Pickup()
     {
         RaycastHit hit;
         Ray ray = camera.ScreenPointToRay(Input.mousePosition);
@@ -65,7 +65,7 @@ public class PickupRaycast : MonoBehaviour
 
                 if (hit.collider.tag == "pickObject")
                 {
-                    rbody = false;
+                    rbody = true;
                     isHeld = true;
                     Debug.Log("You hit a pickObject!");
                     itemGrabbed = hit.collider.gameObject;
@@ -81,7 +81,7 @@ public class PickupRaycast : MonoBehaviour
 
     void Drop()
     {
-        rbody = true;
+        rbody = false;
         isHeld = false;
     
 
