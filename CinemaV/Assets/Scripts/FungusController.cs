@@ -24,10 +24,10 @@ public class FungusController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (lightCheckpoint != (CurrentLight)mainFlowchart.GetIntegerVariable("light"))
+        if (lightCheckpoint != (CurrentLight)mainFlowchart.GetIntegerVariable("Light"))
         {
 
-            lightCheckpoint = (CurrentLight)mainFlowchart.GetIntegerVariable("light");
+            lightCheckpoint = (CurrentLight)mainFlowchart.GetIntegerVariable("Light");
 
         }
     }

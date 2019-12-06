@@ -98,6 +98,7 @@ public class CamBoomProto : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, rayDistance))
         {
+            Debug.DrawRay(ray.origin, ray.direction, Color.red);
             if (hit.collider != null)
             {
 
