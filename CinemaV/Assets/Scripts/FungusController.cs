@@ -38,10 +38,11 @@ public class FungusController : MonoBehaviour
         {
             switch (lightCheckpoint)
             {
-                case CurrentLight.lightOne: mainFlowchart.ExecuteBlock("Test Say 1"); break;
-                case CurrentLight.lightTwo: mainFlowchart.ExecuteBlock("Test Say 2"); break;
-                case CurrentLight.lightThree: mainFlowchart.ExecuteBlock("Test Say 3"); break;
+                case CurrentLight.lightOne: mainFlowchart.ExecuteBlock("Light1"); break;
+                case CurrentLight.lightTwo: mainFlowchart.ExecuteBlock("Light2"); break;
+                case CurrentLight.lightThree: mainFlowchart.ExecuteBlock("Light3"); break;
             }
+            other.tag = null;
         }
     }
 }
