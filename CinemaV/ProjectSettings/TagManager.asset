@@ -6,6 +6,9 @@ TagManager:
   tags:
   - pickObject
   - attached
+  - light1
+  - light2
+  - light3
   layers:
   - Default
   - TransparentFX
