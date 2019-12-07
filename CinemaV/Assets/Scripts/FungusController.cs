@@ -15,10 +15,11 @@ public class FungusController : MonoBehaviour
     public CamBoomProto camboom;
     public Flowchart mainFlowchart;
     public CurrentLight lightCheckpoint = CurrentLight.lightOne;
+    public Collider collider;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        
+        collider = GetComponent<Collider>();
     }
 
     // Update is called once per frame
@@ -32,16 +33,22 @@ public class FungusController : MonoBehaviour
         }
     }
 
-        public void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
         if (other.name == "BoomHandle")
         {
             switch (lightCheckpoint)
             {
-                case CurrentLight.lightOne: mainFlowchart.ExecuteBlock("Test Say 1"); break;
-                case CurrentLight.lightTwo: mainFlowchart.ExecuteBlock("Test Say 2"); break;
-                case CurrentLight.lightThree: mainFlowchart.ExecuteBlock("Test Say 3"); break;
+                case CurrentLight.lightOne: mainFlowchart.ExecuteBlock("Light1"); break;
+                case CurrentLight.lightTwo: mainFlowchart.ExecuteBlock("Light2"); break;
+                case CurrentLight.lightThree: mainFlowchart.ExecuteBlock("Light3"); break;
             }
+            other.transform.parent.tag = "Untagged";
+            other.tag = "Untagged";
+            other.transform.parent.GetChild(0).tag = "Untagged";
+            collider.enabled = false;
+
+            CamBoomProto.instance.Drop();
         }
     }
 }

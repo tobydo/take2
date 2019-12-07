@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CamBoomProto : MonoBehaviour
 {
+    public static CamBoomProto instance;
     CharacterController cc;
     public Rigidbody handsRB;
 
@@ -12,20 +13,26 @@ public class CamBoomProto : MonoBehaviour
     public ConfigurableJoint boomHandle1;
     public ConfigurableJoint boomHandle2;
     public ConfigurableJoint boomHandle3;
+    public ConfigurableJoint oscar;
+
     Rigidbody boomRB;
     public Vector3 boomOffset = new Vector3(0f, -0.32f, 0.5f);
     public Camera camera;
     public float rayDistance;
     public float distance;
     public Camera rcamera;
-    
+
 
     public GameObject target;
     GameObject itemGrabbed = null;
     bool rbody = false;
     public bool isHeld = false;
+    public bool light = false;
     CursorLockMode cursorLock;
-
+    private void Awake()
+    {
+        instance = this;
+    }
     void Start()
     {
 
@@ -46,21 +53,24 @@ public class CamBoomProto : MonoBehaviour
         //    cursorLock = CursorLockMode.None;
 
         //}
-      
+
         // pickup objects
         if (Input.GetKeyDown(KeyCode.E))
         {
-            
+
             if (rbody == false)
             {
-            
-		Pickup(); // TODO: raycast / spherecast, sense which boom we are picking up
+
+                Pickup(); // TODO: raycast / spherecast, sense which boom we are picking up
 
             }
 
             else
             {
+
                 Drop();
+
+
             }
 
         }
@@ -84,7 +94,7 @@ public class CamBoomProto : MonoBehaviour
             boomRB.isKinematic = true;
             rbody = false;
             isHeld = false;
-
+            light = false;
 
             itemGrabbed = null;
 
@@ -102,7 +112,7 @@ public class CamBoomProto : MonoBehaviour
             boomRB.isKinematic = true;
             rbody = false;
             isHeld = false;
-
+            light = false;
 
             itemGrabbed = null;
 
@@ -120,132 +130,204 @@ public class CamBoomProto : MonoBehaviour
             boomRB.isKinematic = true;
             rbody = false;
             isHeld = false;
-
+            light = false;
 
             itemGrabbed = null;
 
         }
+        if (oscar.connectedBody == handsRB)
+        {
+            oscar.connectedBody = null; // disconnect joint
 
+            // snap boom to ground, stabilize boom direction
+            var boom = boomHandle1.transform;
+            boom.position = new Vector3(boom.position.x, -.05f, boom.position.z);
+            boom.eulerAngles = new Vector3(0f, boom.eulerAngles.y, 0f);
 
+            // turn off physics for the boom
+            boomRB.isKinematic = true;
+            rbody = false;
+            isHeld = false;
+            light = false;
+
+            itemGrabbed = null;
+
+        }
     }
 
 
 
+        //public void DropNotLight()
+        //{
 
-   public void Pickup()
-    {
-        RaycastHit hit;
-        
-        Ray ray = new Ray(camera.transform.position, camera.transform.forward);
-	Debug.DrawRay(ray.origin, ray.direction * 1000, Color.red);
 
-        print("pickup called");
+        // toggle joint's connected body
+        // we are holding the boom, so DROP IT...
+        //if (oscar.connectedBody == handsRB)
+        //{
+        //    oscar.connectedBody = null; // disconnect joint
 
-        if (Physics.Raycast(ray, out hit, rayDistance))
+        //    // snap boom to ground, stabilize boom direction
+        //   // var boom = boomHandle1.transform;
+        //  //  boom.position = new Vector3(boom.position.x, -.05f, boom.position.z);
+        //   // boom.eulerAngles = new Vector3(0f, boom.eulerAngles.y, 0f);
+
+        //    // turn off physics for the boom
+        //    //boomRB.isKinematic = true;
+        //    rbody = false;
+        //    isHeld = false;
+
+
+        //    itemGrabbed = null;
+
+        //}
+
+
+
+
+
+
+       public void Pickup()
         {
-            if (hit.collider != null)
+            RaycastHit hit;
+
+            Ray ray = new Ray(camera.transform.position, camera.transform.forward);
+            Debug.DrawRay(ray.origin, ray.direction * 1000, Color.red);
+
+            print("pickup called");
+
+            if (Physics.Raycast(ray, out hit, rayDistance))
             {
-               var localPoint = hit.textureCoord;
-                Ray ray2 = rcamera.ScreenPointToRay(new Vector2(localPoint.x * rcamera.pixelWidth, localPoint.y * rcamera.pixelHeight));
-                RaycastHit rhit;
-
-                if (Physics.Raycast(ray, out rhit, rayDistance))
+                if (hit.collider != null)
                 {
-                    print(hit.collider.name);
+                    var localPoint = hit.textureCoord;
+                    Ray ray2 = rcamera.ScreenPointToRay(new Vector2(localPoint.x * rcamera.pixelWidth, localPoint.y * rcamera.pixelHeight));
+                    RaycastHit rhit;
 
-                    if (rhit.collider.tag == "light1")
+                    if (Physics.Raycast(ray, out rhit, rayDistance))
                     {
-                        rbody = true;
-                        isHeld = true;
-                        Debug.Log("light1");
-                        itemGrabbed = rhit.collider.gameObject;
-                        boomRB = boomHandle1.GetComponent<Rigidbody>();
+                        print(hit.collider.name);
+
+                        if (rhit.collider.tag == "light1")
+                        {
+                            rbody = true;
+                            isHeld = true;
+                            Debug.Log("light1");
+                            itemGrabbed = rhit.collider.gameObject;
+                            boomRB = boomHandle1.GetComponent<Rigidbody>();
 
 
 
-                        itemGrabbed = null;
-                        // we are not holding the boom, so PICK IT UP
-                        // reset boom orientation to match player
-                        boomHandle1.transform.position = handsRB.position + transform.TransformDirection(boomOffset);
-                        boomHandle1.transform.forward = handsRB.transform.forward;
+                            itemGrabbed = null;
+                            // we are not holding the boom, so PICK IT UP
+                            // reset boom orientation to match player
+                            boomHandle1.transform.position = handsRB.position + transform.TransformDirection(boomOffset);
+                            boomHandle1.transform.forward = handsRB.transform.forward;
 
-                        // attach boom to player
-                        boomHandle1.connectedBody = handsRB;
-                        boomHandle1.connectedAnchor = new Vector3(0f, -0.16f, 0.63f);
+                            // attach boom to player
+                            boomHandle1.connectedBody = handsRB;
+                            boomHandle1.connectedAnchor = new Vector3(0f, -0.16f, 0.63f);
 
-                        // as a precaution, zero-out boom physics... but if boom was already kinematic, there was no physics, so this is maybe unnecessary
-                        // boomRB.velocity = Vector3.zero;
-                        // boomRB.angularVelocity = Vector3.zero;
+                            // as a precaution, zero-out boom physics... but if boom was already kinematic, there was no physics, so this is maybe unnecessary
+                            // boomRB.velocity = Vector3.zero;
+                            // boomRB.angularVelocity = Vector3.zero;
 
-                        // turn on physics for the boom again
-                        boomRB.isKinematic = false;
+                            // turn on physics for the boom again
+                            boomRB.isKinematic = false;
+                            light = true;
+
+
+                        }
+                        if (rhit.collider.tag == "light2")
+                        {
+                            rbody = true;
+                            isHeld = true;
+                            Debug.Log("light2");
+                            itemGrabbed = rhit.collider.gameObject;
+                            boomRB = boomHandle2.GetComponent<Rigidbody>();
 
 
 
-                    }
-                    if (rhit.collider.tag == "light2")
+                            itemGrabbed = null;
+                            // we are not holding the boom, so PICK IT UP
+                            // reset boom orientation to match player
+                            boomHandle2.transform.position = handsRB.position + transform.TransformDirection(boomOffset);
+                            boomHandle2.transform.forward = handsRB.transform.forward;
+
+                            // attach boom to player
+                            boomHandle2.connectedBody = handsRB;
+                            boomHandle2.connectedAnchor = new Vector3(0f, -0.16f, 0.63f);
+
+                            // boomRB.angularVelocity = Vector3.zero;
+
+                            // turn on physics for the boom again
+                            boomRB.isKinematic = false;
+                            light = true;
+
+
+                        }
+                        if (rhit.collider.tag == "light3")
+                        {
+                            rbody = true;
+                            isHeld = true;
+                            Debug.Log("light3");
+                            itemGrabbed = rhit.collider.gameObject;
+                            boomRB = boomHandle3.GetComponent<Rigidbody>();
+
+
+
+                            itemGrabbed = null;
+                            // we are not holding the boom, so PICK IT UP
+                            // reset boom orientation to match player
+                            boomHandle3.transform.position = handsRB.position + transform.TransformDirection(boomOffset);
+                            boomHandle3.transform.forward = handsRB.transform.forward;
+
+                            // attach boom to player
+                            boomHandle3.connectedBody = handsRB;
+                            boomHandle3.connectedAnchor = new Vector3(0f, -0.16f, 0.63f);
+
+                            // as a precaution, zero-out boom physics... but if boom was already kinematic, there was no physics, so this is maybe unnecessary
+                            // boomRB.velocity = Vector3.zero;
+                            // boomRB.angularVelocity = Vector3.zero;
+
+                            // turn on physics for the boom again
+                            boomRB.isKinematic = false;
+                            light = true;
+                        }
+                    if (rhit.collider.tag == "oscar")
                     {
                         rbody = true;
                         isHeld = true;
                         Debug.Log("light2");
                         itemGrabbed = rhit.collider.gameObject;
-                        boomRB = boomHandle2.GetComponent<Rigidbody>();
+                        boomRB = oscar.GetComponent<Rigidbody>();
 
 
 
                         itemGrabbed = null;
                         // we are not holding the boom, so PICK IT UP
                         // reset boom orientation to match player
-                        boomHandle2.transform.position = handsRB.position + transform.TransformDirection(boomOffset);
-                        boomHandle2.transform.forward = handsRB.transform.forward;
+                        oscar.transform.position = handsRB.position + transform.TransformDirection(boomOffset);
+                        oscar.transform.forward = handsRB.transform.forward;
 
                         // attach boom to player
-                        boomHandle2.connectedBody = handsRB;
-                        boomHandle2.connectedAnchor = new Vector3(0f, -0.16f, 0.63f);
+                        oscar.connectedBody = handsRB;
+                        oscar.connectedAnchor = new Vector3(0f, -0.16f, 0.63f);
 
                         // boomRB.angularVelocity = Vector3.zero;
 
                         // turn on physics for the boom again
                         boomRB.isKinematic = false;
-
-
-
-                    }
-                    if (rhit.collider.tag == "light3")
-                    {
-                        rbody = true;
-                        isHeld = true;
-                        Debug.Log("light3");
-                        itemGrabbed = rhit.collider.gameObject;
-                        boomRB = boomHandle3.GetComponent<Rigidbody>();
-
-
-
-                        itemGrabbed = null;
-                        // we are not holding the boom, so PICK IT UP
-                        // reset boom orientation to match player
-                        boomHandle3.transform.position = handsRB.position + transform.TransformDirection(boomOffset);
-                        boomHandle3.transform.forward = handsRB.transform.forward;
-
-                        // attach boom to player
-                        boomHandle3.connectedBody = handsRB;
-                        boomHandle3.connectedAnchor = new Vector3(0f, -0.16f, 0.63f);
-
-                        // as a precaution, zero-out boom physics... but if boom was already kinematic, there was no physics, so this is maybe unnecessary
-                        // boomRB.velocity = Vector3.zero;
-                        // boomRB.angularVelocity = Vector3.zero;
-
-                        // turn on physics for the boom again
-                        boomRB.isKinematic = false;
-
+                        light = true;
 
 
                     }
                 }
+                }
             }
         }
     }
-}
+
 
 
 
