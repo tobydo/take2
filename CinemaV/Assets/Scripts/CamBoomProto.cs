@@ -15,12 +15,15 @@ public class CamBoomProto : MonoBehaviour
     public ConfigurableJoint boomHandle3;
     public ConfigurableJoint oscar;
 
+    public GameObject oscarThing;
+
     Rigidbody boomRB;
     public Vector3 boomOffset = new Vector3(0f, -0.32f, 0.5f);
     public Camera camera;
     public float rayDistance;
     public float distance;
     public Camera rcamera;
+    public int breakForce;
 
 
     public GameObject target;
@@ -38,6 +41,8 @@ public class CamBoomProto : MonoBehaviour
 
         cc = GetComponent<CharacterController>();
         cursorLock = CursorLockMode.Locked;
+
+       
     }
 
     // Update is called once per frame
@@ -123,42 +128,42 @@ public class CamBoomProto : MonoBehaviour
             itemGrabbed = null;
 
         }
-        if (boomHandle3.connectedBody == handsRB)
-        {
-            boomHandle3.connectedBody = null; // disconnect joint
+		if (boomHandle3.connectedBody == handsRB)
+		{
+			boomHandle3.connectedBody = null; // disconnect joint
 
-            // snap boom to ground, stabilize boom direction
-            var boom = boomHandle3.transform;
-            boom.position = new Vector3(boom.position.x, -.05f, boom.position.z);
-            boom.eulerAngles = new Vector3(0f, boom.eulerAngles.y, 0f);
+			// snap boom to ground, stabilize boom direction
+			var boom = boomHandle3.transform;
+			boom.position = new Vector3(boom.position.x, -.05f, boom.position.z);
+			boom.eulerAngles = new Vector3(0f, boom.eulerAngles.y, 0f);
 
-            // turn off physics for the boom
-            boomRB.isKinematic = true;
-            rbody = false;
-            isHeld = false;
-            light = false;
+			// turn off physics for the boom
+			boomRB.isKinematic = true;
+			rbody = false;
+			isHeld = false;
+			light = false;
 
-            itemGrabbed = null;
+			itemGrabbed = null;
 
-        }
-        if (oscar.connectedBody == handsRB)
-        {
-            oscar.connectedBody = null; // disconnect joint
 
-            // snap boom to ground, stabilize boom direction
-            var boom = boomHandle1.transform;
-            boom.position = new Vector3(boom.position.x, -.05f, boom.position.z);
-            boom.eulerAngles = new Vector3(0f, boom.eulerAngles.y, 0f);
+			//if (oscar.connectedBody == handsRB)
+			//{
+			//    oscar.connectedBody = null; // disconnect joint
 
-            // turn off physics for the boom
-            boomRB.isKinematic = true;
-            rbody = false;
-            isHeld = false;
-            light = false;
+			//    // snap boom to ground, stabilize boom direction
+			//    var boom = boomHandle1.transform;
+			//    boom.position = new Vector3(boom.position.x, -.05f, boom.position.z);
+			//    boom.eulerAngles = new Vector3(0f, boom.eulerAngles.y, 0f);
 
-            itemGrabbed = null;
+			//    // turn off physics for the boom
+			//    boomRB.isKinematic = true;
+			//    rbody = false;
+			//    isHeld = false;
+			//    light = false;
 
-        }
+			//    itemGrabbed = null;
+
+		}
     }
 
 
@@ -175,11 +180,18 @@ public class CamBoomProto : MonoBehaviour
 
             // snap boom to ground, stabilize boom direction
             Rigidbody rb = oscar.GetComponent<Rigidbody>();
-           
 
-            rb.MovePosition(transform.position + transform.right * Time.fixedDeltaTime);
+            Destroy(oscar);
+
+            StartCoroutine("CreateJoint");
+            //foreach(System.Reflection.FieldInfo field in boomHandle1.GetType().GetFields())
+            //{
+            //    field.SetValue(oscar, field.GetValue(boomHandle1.GetType()));
+            //}
+
+            //rb.AddForce(breakForce, breakForce, breakForce);
         }
-        // turn off physics for the boom
+        // turn off physics for the booms
         //boomRB.isKinematic = true;
         rbody = false;
             isHeld = false;
@@ -187,6 +199,44 @@ public class CamBoomProto : MonoBehaviour
 
             itemGrabbed = null;
 
+        }
+
+        private IEnumerator CreateJoint()
+        {
+        print("new joint made");
+            yield return new WaitForSeconds(2f);
+
+            oscar = oscarThing.AddComponent<ConfigurableJoint>() as ConfigurableJoint;
+
+            //oscar.connectedBody = rb;
+            oscar.connectedAnchor = boomHandle1.connectedAnchor;
+            oscar.angularXLimitSpring = boomHandle1.angularXLimitSpring;
+            oscar.anchor = boomHandle1.anchor;
+            oscar.angularXDrive = boomHandle1.angularXDrive;
+            oscar.angularXMotion = boomHandle1.angularXMotion;
+            oscar.angularYLimit = boomHandle1.angularYLimit;
+            oscar.angularYMotion = boomHandle1.angularYMotion;
+            oscar.angularYZDrive = boomHandle1.angularYZDrive;
+            oscar.angularYZLimitSpring = boomHandle1.angularYZLimitSpring;
+            oscar.angularZLimit = boomHandle1.angularZLimit;
+            oscar.angularZMotion = boomHandle1.angularZMotion;
+            oscar.autoConfigureConnectedAnchor = boomHandle1.autoConfigureConnectedAnchor;
+            oscar.axis = boomHandle1.axis;
+            oscar.breakForce = boomHandle1.breakForce;
+            oscar.breakTorque = boomHandle1.breakTorque;
+            oscar.connectedAnchor = boomHandle1.connectedAnchor;
+            oscar.targetAngularVelocity = boomHandle1.targetAngularVelocity;
+            oscar.targetPosition = boomHandle1.targetPosition;
+            oscar.targetRotation = boomHandle1.targetRotation;
+            oscar.targetVelocity = boomHandle1.targetVelocity;
+            oscar.xDrive = boomHandle1.xDrive;
+            oscar.xMotion = boomHandle1.xMotion;
+            oscar.yDrive = boomHandle1.yDrive;
+            oscar.yMotion = boomHandle1.yMotion;
+            oscar.zDrive = boomHandle1.zDrive;
+            oscar.zMotion = boomHandle1.zMotion;
+            oscar.projectionAngle = boomHandle1.projectionAngle;
+            oscar.projectionDistance = boomHandle1.projectionDistance;
         }
    
 
