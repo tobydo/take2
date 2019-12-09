@@ -67,8 +67,14 @@ public class CamBoomProto : MonoBehaviour
 
             else
             {
-
-                Drop();
+                if (light)
+                {
+                    Drop();
+                }
+                if (!light)
+                {
+                    DropNotLight();
+                }
 
 
             }
@@ -157,37 +163,34 @@ public class CamBoomProto : MonoBehaviour
 
 
 
-        //public void DropNotLight()
-        //{
+    public void DropNotLight()
+    {
 
 
         // toggle joint's connected body
-        // we are holding the boom, so DROP IT...
-        //if (oscar.connectedBody == handsRB)
-        //{
-        //    oscar.connectedBody = null; // disconnect joint
+        //we are holding the boom, so DROP IT...
+        if (oscar.connectedBody == handsRB)
+        {
+            oscar.connectedBody = null; // disconnect joint
 
-        //    // snap boom to ground, stabilize boom direction
-        //   // var boom = boomHandle1.transform;
-        //  //  boom.position = new Vector3(boom.position.x, -.05f, boom.position.z);
-        //   // boom.eulerAngles = new Vector3(0f, boom.eulerAngles.y, 0f);
+            // snap boom to ground, stabilize boom direction
+            Rigidbody rb = oscar.GetComponent<Rigidbody>();
+           
 
-        //    // turn off physics for the boom
-        //    //boomRB.isKinematic = true;
-        //    rbody = false;
-        //    isHeld = false;
-
-
-        //    itemGrabbed = null;
-
-        //}
+            rb.MovePosition(transform.position + transform.right * Time.fixedDeltaTime);
+        }
+        // turn off physics for the boom
+        //boomRB.isKinematic = true;
+        rbody = false;
+            isHeld = false;
 
 
+            itemGrabbed = null;
 
+        }
+   
 
-
-
-       public void Pickup()
+        public void Pickup()
         {
             RaycastHit hit;
 
@@ -298,7 +301,7 @@ public class CamBoomProto : MonoBehaviour
                     {
                         rbody = true;
                         isHeld = true;
-                        Debug.Log("light2");
+                        Debug.Log("oscar");
                         itemGrabbed = rhit.collider.gameObject;
                         boomRB = oscar.GetComponent<Rigidbody>();
 
@@ -318,7 +321,7 @@ public class CamBoomProto : MonoBehaviour
 
                         // turn on physics for the boom again
                         boomRB.isKinematic = false;
-                        light = true;
+                        
 
 
                     }
