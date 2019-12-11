@@ -9,6 +9,7 @@ TagManager:
   - light1
   - light2
   - light3
+  - oscar
   layers:
   - Default
   - TransparentFX
