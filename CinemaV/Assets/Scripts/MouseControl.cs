@@ -5,6 +5,7 @@ using UnityEngine;
 public class MouseControl : MonoBehaviour
 {
     public GameObject cam;
+    public GameObject player;
 
     public void TurnOff()
     {
@@ -12,6 +13,9 @@ public class MouseControl : MonoBehaviour
 
         mouse.enabled = false;
 
+        MouseLook playerMouse = player.GetComponent<MouseLook>();
+
+        playerMouse.enabled = false;
     }
 
     public void TurnOn()
@@ -19,6 +23,10 @@ public class MouseControl : MonoBehaviour
         MouseLook mouse = cam.GetComponent<MouseLook>();
 
         mouse.enabled = true;
+
+        MouseLook playerMouse = player.GetComponent<MouseLook>();
+
+        playerMouse.enabled = true;
 
     }
 
