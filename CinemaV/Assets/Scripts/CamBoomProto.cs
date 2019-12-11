@@ -204,7 +204,7 @@ public class CamBoomProto : MonoBehaviour
         private IEnumerator CreateJoint()
         {
         print("new joint made");
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1f);
 
             oscar = oscarThing.AddComponent<ConfigurableJoint>() as ConfigurableJoint;
 
