@@ -10,6 +10,8 @@ TagManager:
   - light2
   - light3
   - oscar
+  - table
+  - chair
   layers:
   - Default
   - TransparentFX
