@@ -16,6 +16,16 @@ public class MouseControl : MonoBehaviour
         MouseLook playerMouse = player.GetComponent<MouseLook>();
 
         playerMouse.enabled = false;
+
+        CharacterController controler = player.GetComponent<CharacterController>();
+
+        controler.enabled = false;
+
+        FirstPersonDrifter fps = player.GetComponent<FirstPersonDrifter>();
+
+        fps.enabled = false;
+
+
     }
 
     public void TurnOn()
@@ -27,6 +37,14 @@ public class MouseControl : MonoBehaviour
         MouseLook playerMouse = player.GetComponent<MouseLook>();
 
         playerMouse.enabled = true;
+
+        CharacterController controler = player.GetComponent<CharacterController>();
+
+        controler.enabled = true;
+
+        FirstPersonDrifter fps = player.GetComponent<FirstPersonDrifter>();
+
+        fps.enabled = true;
 
     }
 
