@@ -16,6 +16,7 @@ public class FungusController : MonoBehaviour
     public Flowchart mainFlowchart;
     public CurrentLight lightCheckpoint = CurrentLight.lightOne;
     public Collider collider;
+    public AudioClip ohYeah;
     // Start is called before the first frame update
     void Awake()
     {
@@ -47,6 +48,9 @@ public class FungusController : MonoBehaviour
             other.tag = "Untagged";
             other.transform.parent.GetChild(0).tag = "Untagged";
             collider.enabled = false;
+            AudioSource audioYeah = GetComponent<AudioSource>();
+            audioYeah.clip = ohYeah;
+            audioYeah.Play();
 
             CamBoomProto.instance.Drop();
         }
