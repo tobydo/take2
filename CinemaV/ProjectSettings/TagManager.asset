@@ -14,6 +14,9 @@ TagManager:
   - chair
   - director chair
   - panda
+  - table1
+  - panda1
+  - chair1
   layers:
   - Default
   - TransparentFX

@@ -4,17 +4,12 @@ using UnityEngine;
 
 public class LightStay : MonoBehaviour
 {
-    Transform lightPos;
+    //Transform lightPos;
     // Start is called before the first frame update
     private void Awake()
     {
-        DontDestroyOnLoad(lightPos);
+        DontDestroyOnLoad(this.gameObject);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        lightPos = this.GetComponent<Transform>();
-
-       
-    }
+   
 }
