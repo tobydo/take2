@@ -12,6 +12,8 @@ TagManager:
   - oscar
   - table
   - chair
+  - director chair
+  - panda
   layers:
   - Default
   - TransparentFX
