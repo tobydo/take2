@@ -16,10 +16,14 @@ public class CamBoomProto : MonoBehaviour
     public ConfigurableJoint oscar;
     public ConfigurableJoint table;
     public ConfigurableJoint chair;
+    public ConfigurableJoint directorChair;
+    public ConfigurableJoint panda;
 
     public GameObject oscarThing;
     public GameObject tableThing;
     public GameObject chairThing;
+    public GameObject directorThing;
+    public GameObject pandaThing;
 
     Rigidbody boomRB;
     public Vector3 boomOffset = new Vector3(0f, -0.32f, 0.5f);
@@ -231,6 +235,42 @@ public class CamBoomProto : MonoBehaviour
 
             //rb.AddForce(breakForce, breakForce, breakForce);
         }
+
+        if (directorChair.connectedBody == handsRB)
+        {
+            directorChair.connectedBody = null; // disconnect joint
+
+            // snap boom to ground, stabilize boom direction
+            Rigidbody rb = directorChair.GetComponent<Rigidbody>();
+
+            Destroy(directorChair);
+
+            StartCoroutine("CreateJointDirector");
+            //foreach(System.Reflection.FieldInfo field in boomHandle1.GetType().GetFields())
+            //{
+            //    field.SetValue(oscar, field.GetValue(boomHandle1.GetType()));
+            //}
+
+            //rb.AddForce(breakForce, breakForce, breakForce);
+        }
+
+        if (panda.connectedBody == handsRB)
+        {
+            panda.connectedBody = null; // disconnect joint
+
+            // snap boom to ground, stabilize boom direction
+            Rigidbody rb = panda.GetComponent<Rigidbody>();
+
+            Destroy(panda);
+
+            StartCoroutine("CreateJointPanda");
+            //foreach(System.Reflection.FieldInfo field in boomHandle1.GetType().GetFields())
+            //{
+            //    field.SetValue(oscar, field.GetValue(boomHandle1.GetType()));
+            //}
+
+            //rb.AddForce(breakForce, breakForce, breakForce);
+        }
         // turn off physics for the booms
         //boomRB.isKinematic = true;
         rbody = false;
@@ -354,6 +394,80 @@ public class CamBoomProto : MonoBehaviour
         chair.zMotion = boomHandle1.zMotion;
         chair.projectionAngle = boomHandle1.projectionAngle;
         chair.projectionDistance = boomHandle1.projectionDistance;
+    }
+    private IEnumerator CreateJointDirector()
+    {
+        print("new joint made");
+        yield return new WaitForSeconds(1f);
+
+        directorChair = directorThing.AddComponent<ConfigurableJoint>() as ConfigurableJoint;
+
+        //oscar.connectedBody = rb;
+        directorChair.connectedAnchor = boomHandle1.connectedAnchor;
+        directorChair.angularXLimitSpring = boomHandle1.angularXLimitSpring;
+        directorChair.anchor = boomHandle1.anchor;
+        directorChair.angularXDrive = boomHandle1.angularXDrive;
+        directorChair.angularXMotion = boomHandle1.angularXMotion;
+        directorChair.angularYLimit = boomHandle1.angularYLimit;
+        directorChair.angularYMotion = boomHandle1.angularYMotion;
+        directorChair.angularYZDrive = boomHandle1.angularYZDrive;
+        directorChair.angularYZLimitSpring = boomHandle1.angularYZLimitSpring;
+        directorChair.angularZLimit = boomHandle1.angularZLimit;
+        directorChair.angularZMotion = boomHandle1.angularZMotion;
+        directorChair.autoConfigureConnectedAnchor = boomHandle1.autoConfigureConnectedAnchor;
+        directorChair.axis = boomHandle1.axis;
+        directorChair.breakForce = boomHandle1.breakForce;
+        directorChair.breakTorque = boomHandle1.breakTorque;
+        directorChair.connectedAnchor = boomHandle1.connectedAnchor;
+        directorChair.targetAngularVelocity = boomHandle1.targetAngularVelocity;
+        directorChair.targetPosition = boomHandle1.targetPosition;
+        directorChair.targetRotation = boomHandle1.targetRotation;
+        directorChair.targetVelocity = boomHandle1.targetVelocity;
+        directorChair.xDrive = boomHandle1.xDrive;
+        directorChair.xMotion = boomHandle1.xMotion;
+        directorChair.yDrive = boomHandle1.yDrive;
+        directorChair.yMotion = boomHandle1.yMotion;
+        directorChair.zDrive = boomHandle1.zDrive;
+        directorChair.zMotion = boomHandle1.zMotion;
+        directorChair.projectionAngle = boomHandle1.projectionAngle;
+        directorChair.projectionDistance = boomHandle1.projectionDistance;
+    }
+    private IEnumerator CreateJointPanda()
+    {
+        print("new joint made");
+        yield return new WaitForSeconds(1f);
+
+        panda = pandaThing.AddComponent<ConfigurableJoint>() as ConfigurableJoint;
+
+        //oscar.connectedBody = rb;
+        panda.connectedAnchor = boomHandle1.connectedAnchor;
+        panda.angularXLimitSpring = boomHandle1.angularXLimitSpring;
+        panda.anchor = boomHandle1.anchor;
+        panda.angularXDrive = boomHandle1.angularXDrive;
+        panda.angularXMotion = boomHandle1.angularXMotion;
+        panda.angularYLimit = boomHandle1.angularYLimit;
+        panda.angularYMotion = boomHandle1.angularYMotion;
+        panda.angularYZDrive = boomHandle1.angularYZDrive;
+        panda.angularYZLimitSpring = boomHandle1.angularYZLimitSpring;
+        panda.angularZLimit = boomHandle1.angularZLimit;
+        panda.angularZMotion = boomHandle1.angularZMotion;
+        panda.autoConfigureConnectedAnchor = boomHandle1.autoConfigureConnectedAnchor;
+        panda.axis = boomHandle1.axis;
+        panda.breakForce = boomHandle1.breakForce;
+        panda.breakTorque = boomHandle1.breakTorque;
+        panda.connectedAnchor = boomHandle1.connectedAnchor;
+        panda.targetAngularVelocity = boomHandle1.targetAngularVelocity;
+        panda.targetPosition = boomHandle1.targetPosition;
+        panda.targetRotation = boomHandle1.targetRotation;
+        panda.targetVelocity = boomHandle1.targetVelocity;
+        panda.xDrive = boomHandle1.xDrive;
+        panda.xMotion = boomHandle1.xMotion;
+        panda.yDrive = boomHandle1.yDrive;
+        panda.yMotion = boomHandle1.yMotion;
+        panda.zDrive = boomHandle1.zDrive;
+        panda.zMotion = boomHandle1.zMotion;
+        panda.projectionAngle = boomHandle1.projectionAngle;
+        panda.projectionDistance = boomHandle1.projectionDistance;
     }
 
 
@@ -498,7 +612,7 @@ public class CamBoomProto : MonoBehaviour
                         isHeld = true;
                         Debug.Log("table");
                         itemGrabbed = rhit.collider.gameObject;
-                        boomRB = oscar.GetComponent<Rigidbody>();
+                        boomRB = table.GetComponent<Rigidbody>();
 
 
 
@@ -540,6 +654,60 @@ public class CamBoomProto : MonoBehaviour
                         // attach boom to player
                         chair.connectedBody = handsRB;
                         chair.connectedAnchor = new Vector3(0f, -0.16f, 0.63f);
+
+                        // boomRB.angularVelocity = Vector3.zero;
+
+                        // turn on physics for the boom again
+                        boomRB.isKinematic = false;
+
+
+                    }
+                    if (rhit.collider.tag == "director chair")
+                    {
+                        rbody = true;
+                        isHeld = true;
+                        Debug.Log("chair");
+                        itemGrabbed = rhit.collider.gameObject;
+                        boomRB = directorChair.GetComponent<Rigidbody>();
+
+
+
+                        itemGrabbed = null;
+                        // we are not holding the boom, so PICK IT UP
+                        // reset boom orientation to match player
+                        directorChair.transform.position = handsRB.position + transform.TransformDirection(boomOffset);
+                        directorChair.transform.forward = handsRB.transform.forward;
+
+                        // attach boom to player
+                        directorChair.connectedBody = handsRB;
+                        directorChair.connectedAnchor = new Vector3(0f, -0.16f, 0.63f);
+
+                        // boomRB.angularVelocity = Vector3.zero;
+
+                        // turn on physics for the boom again
+                        boomRB.isKinematic = false;
+
+
+                    }
+                    if (rhit.collider.tag == "panda")
+                    {
+                        rbody = true;
+                        isHeld = true;
+                        Debug.Log("panda");
+                        itemGrabbed = rhit.collider.gameObject;
+                        boomRB = panda.GetComponent<Rigidbody>();
+
+
+
+                        itemGrabbed = null;
+                        // we are not holding the boom, so PICK IT UP
+                        // reset boom orientation to match player
+                        panda.transform.position = handsRB.position + transform.TransformDirection(boomOffset);
+                        panda.transform.forward = handsRB.transform.forward;
+
+                        // attach boom to player
+                        panda.connectedBody = handsRB;
+                        panda.connectedAnchor = new Vector3(0f, -0.16f, 0.63f);
 
                         // boomRB.angularVelocity = Vector3.zero;
 
