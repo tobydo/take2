@@ -24008,8 +24008,7 @@ MonoBehaviour:
     y: -340
     width: 1114
     height: 859
-  selectedBlocks:
-  - {fileID: 843614216}
+  selectedBlocks: []
   selectedCommands: []
   variables:
   - {fileID: 843614221}
@@ -24740,7 +24739,7 @@ MonoBehaviour:
   showAlways: 1
   showCount: 1
   extendPrevious: 0
-  fadeWhenDone: 0
+  fadeWhenDone: 1
   waitForClick: 0
   stopVoiceover: 1
   waitForVO: 0
@@ -38447,6 +38446,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: pandaThing
       objectReference: {fileID: 0}
+    - target: {fileID: 818368961385119534, guid: 1351576662c4746fdb3af8c49d1410b2,
+        type: 3}
+      propertyPath: m_ConnectedAnchor.x
+      value: -1216.7627
+      objectReference: {fileID: 0}
+    - target: {fileID: 818368961385119534, guid: 1351576662c4746fdb3af8c49d1410b2,
+        type: 3}
+      propertyPath: m_ConnectedAnchor.y
+      value: 1.0474617
+      objectReference: {fileID: 0}
+    - target: {fileID: 818368961385119534, guid: 1351576662c4746fdb3af8c49d1410b2,
+        type: 3}
+      propertyPath: m_ConnectedAnchor.z
+      value: -37.59022
+      objectReference: {fileID: 0}
     - target: {fileID: 818368961385119521, guid: 1351576662c4746fdb3af8c49d1410b2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -38501,21 +38515,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -39.786003
-      objectReference: {fileID: 0}
-    - target: {fileID: 818368961385119534, guid: 1351576662c4746fdb3af8c49d1410b2,
-        type: 3}
-      propertyPath: m_ConnectedAnchor.x
-      value: -1216.7627
-      objectReference: {fileID: 0}
-    - target: {fileID: 818368961385119534, guid: 1351576662c4746fdb3af8c49d1410b2,
-        type: 3}
-      propertyPath: m_ConnectedAnchor.y
-      value: 1.0474617
-      objectReference: {fileID: 0}
-    - target: {fileID: 818368961385119534, guid: 1351576662c4746fdb3af8c49d1410b2,
-        type: 3}
-      propertyPath: m_ConnectedAnchor.z
-      value: -37.59022
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1351576662c4746fdb3af8c49d1410b2, type: 3}
