@@ -13,7 +13,7 @@ public class LightStay : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Transform lightPos = other.GetComponent<Transform>();
+        lightPos = this.GetComponent<Transform>();
 
        
     }
