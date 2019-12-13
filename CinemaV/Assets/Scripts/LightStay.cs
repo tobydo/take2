@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LightStay : MonoBehaviour
 {
-   // Vector3 lightPos;
+    // Vector3 lightPos;
     //Quaternion lightRot;
     // Start is called before the first frame update
     private void Awake()
@@ -12,8 +13,14 @@ public class LightStay : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
-    void DestroyLight()
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Destroy(this.gameObject);
+
+        if (scene.name == "Level4")
+        {
+            // Destroy the gameobject this script is attached to
+            Destroy(gameObject);
+        }
     }
 }
