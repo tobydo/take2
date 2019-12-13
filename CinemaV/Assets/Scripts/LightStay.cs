@@ -20,6 +20,7 @@ public class LightStay : MonoBehaviour
         if (scene.name == "Level4")
         {
             // Destroy the gameobject this script is attached to
+            Cursor.visible = true;
             Destroy(gameObject);
         }
     }
