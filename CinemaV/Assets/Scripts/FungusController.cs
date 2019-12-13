@@ -48,11 +48,12 @@ public class FungusController : MonoBehaviour
             other.tag = "Untagged";
             other.transform.parent.GetChild(0).tag = "Untagged";
             collider.enabled = false;
+
+            CamBoomProto.instance.Drop();
+
             AudioSource audioYeah = GetComponent<AudioSource>();
             audioYeah.clip = ohYeah;
             audioYeah.Play();
-
-            CamBoomProto.instance.Drop();
         }
     }
 }
